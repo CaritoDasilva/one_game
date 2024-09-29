@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juego de Uno</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="game">
+    <div id="player1-hand" class="hand"></div>
+    <div id="player2-hand" class="hand"></div>
+    <div id="player3-hand" class="hand"></div>
+
+    <div id="game-board">
+      <!-- Pila de cartas volteadas -->
+      <div id="deck-pile">
+        <img id="deck-card" class="card" alt="Mazo de cartas volteadas" />
+      </div>
+
+      <!-- Pila de cartas abiertas -->
+      <div id="discard-pile">
+        <img id="discard-card" class="card" alt="Carta en la pila abierta" />
+      </div>
+    </div>
+
+    <!-- Indicador de turno -->
+    <div id="turn-indicator">Turno del Jugador 1</div>
+
+    <!-- Botón para robar carta -->
+    <button id="draw-button">Robar carta</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
