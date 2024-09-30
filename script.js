@@ -38,6 +38,20 @@ function dealCards(players, numCards) {
   return { hands, deck };  // Retornar las manos de los jugadores y el mazo restante
 }
 
+// Función para manejar cuando un jugador roba cartas
+function drawCardForPlayer(playerIndex, numCards = 1) {
+  for (let i = 0; i < numCards; i++) {
+    if (deck.length > 0) {
+      hands[playerIndex].push(deck.pop());  // Añadir una carta del mazo a la mano del jugador
+    } else {
+      alert("El mazo se ha quedado sin cartas.");
+    }
+  }
+
+  // Actualizar la mano del jugador en el DOM
+  displayHand(hands[playerIndex], `player${playerIndex + 1}-hand`, playerIndex === currentPlayer);
+}
+
 // Función para mostrar la mano de un jugador
 function displayHand(hand, elementId, isCurrentPlayer = false) {
   console.log("🚀 ~ displayHand ~ hand:", hand)
@@ -148,6 +162,12 @@ function handleCardPlay(card, cardIndex) {
   } else {
     alert('Movimiento inválido.');
   }
+}
+
+// Función para que el jugador robe cartas si no tiene una carta válida
+function playerDrawCard() {
+  drawCardForPlayer(currentPlayer);  // El jugador actual roba una carta
+  nextTurn();  // Pasar el turno al siguiente jugador
 }
 
   // Función para validar si una carta puede jugarse
