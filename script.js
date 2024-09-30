@@ -73,6 +73,18 @@ function displayDeckCard() {
   deckCard.alt = "Mazo de cartas volteadas";
 }
 
+// Función para agregar cartas a la mano de un jugador
+function addCardsToPlayer(playerIndex, numCards) {
+  for (let i = 0; i < numCards; i++) {
+    if (deck.length > 0) {
+      playerHands.hands[playerIndex].push(deck.pop());  // Robar una carta del mazo
+    } else {
+      alert("El mazo se ha quedado sin cartas.");
+    }
+  }
+  displayHand(playerHands.hands[playerIndex], `player${playerIndex + 1}-hand`); // Actualizar la mano del jugador en el DOM
+}
+
   // Turno de la computadora
 function computerTurn() {
   let validCardIndex = playerHands.hands[1].findIndex(card => isValidPlay(card, discardPile[discardPile.length - 1]));
@@ -81,6 +93,14 @@ function computerTurn() {
     let card = playerHands.hands[1].splice(validCardIndex, 1)[0];  // Jugar la carta válida
     discardPile.push(card);
     displayDiscardCard(card);
+    if (card.value === "draw-2") {
+      // Si la carta es "más dos", el siguiente jugador roba 2 cartas
+      const nextPlayer = (currentPlayer + direction + playerHands.hands.length) % playerHands.hands.length; // Siguiente jugador
+      addCardsToPlayer(nextPlayer, 2);  // Añadir 2 cartas al siguiente jugador
+    } else {
+      // Actualizar la mano del jugador en el DOM después de jugar la carta
+      displayHand(playerHands.hands[currentPlayer], `player${currentPlayer + 1}-hand`, true);
+    }
   } else {
     alert('Computadora no tiene una carta válida y roba una carta.');
     playerHands.hands[1].push(deck.pop());  // La computadora roba una carta si no tiene una válida
@@ -116,6 +136,14 @@ function handleCardPlay(card, cardIndex) {
     playerHands.hands[currentPlayer].splice(cardIndex, 1);  // Eliminar la carta jugada de la mano del jugador
     discardPile.push(card);  // Añadir la carta a la pila abierta
     displayDiscardCard(card);  // Actualizar la carta en la pila abierta
+    if (card.value === "draw-2") {
+      // Si la carta es "más dos", el siguiente jugador roba 2 cartas
+      const nextPlayer = (currentPlayer + direction + playerHands.hands.length) % playerHands.hands.length; // Siguiente jugador
+      addCardsToPlayer(nextPlayer, 2);  // Añadir 2 cartas al siguiente jugador
+    } else {
+      // Actualizar la mano del jugador en el DOM después de jugar la carta
+      displayHand(playerHands.hands[currentPlayer], `player${currentPlayer + 1}-hand`, true);
+    }
     nextTurn();  // Pasar al siguiente turno
   } else {
     alert('Movimiento inválido.');
